@@ -1,9 +1,16 @@
-import { Link, Outlet, useLoaderData } from "react-router-dom";
-import { getContacts } from "../contact";
+import { Form, Link, Outlet, useLoaderData } from "react-router-dom";
+import { getContacts, createContact } from "../contact";
 
+// get existing contacts
 export async function loader() {
   const contacts = await getContacts();
   return { contacts };
+}
+
+//create a new contact
+export async function action() {
+  const contact = await createContact();
+  return { contact };
 }
 export default function Root() {
   const { contacts } = useLoaderData();
@@ -23,9 +30,9 @@ export default function Root() {
             <div id="search-spinner" aria-hidden hidden={true} />
             <div className="sr-only" aria-live="polite"></div>
           </form>
-          <form method="post">
+          <Form method="post">
             <button type="submit">New</button>
-          </form>
+          </Form>
         </div>
         <nav>
           {contacts.length ? (
